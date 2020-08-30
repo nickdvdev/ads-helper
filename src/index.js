@@ -1,14 +1,20 @@
 require('dotenv').config();
 const markup = require('telegraf/markup') 
 const { Telegraf } = require('telegraf')
-console.log('Bot has been started...')
-const bot = new Telegraf(process.env.BOT_TOKEN);
+const helpers = require('./helpers')
+const bot = new Telegraf(process.env.BOT_TOKEN)
+const adminsChat = process.env.ADMINS_CHAT
+const myChat = process.env.MY_CHAT
+bot.launch()
+helpers.logStart()
 //======================================================
-bot.start((ctx) => ctx.reply(`Купи у меня рекламу, щщщинок ${ctx.message.from.first_name}`, markup.keyboard([
-  ['В топе висеть'],
-  ['Рекламный пост']
-]).extra()
+bot.start((ctx) => ctx.reply(`В каком паблике желаете разместить рекламу?`,
+  markup.keyboard([
+    ['Cheap ELO Boost'],
+    ['ESN | Esports News']
+  ]).extra()
 ))
+
 bot.hears('В топе висеть', (ctx) => ctx.reply('Сколько часов я буду ебать твою мамку?', markup.keyboard([
   ['1', '2' ,'3'],
   ['4', '5', '6'],
@@ -25,8 +31,4 @@ bot.hears('Назад', (ctx) => ctx.reply(`Купи у меня рекламу,
   ['В топе висеть'],
   ['Рекламный пост']
 ]).extra()))
-//===============================================
-bot.help((ctx) => ctx.reply('Запросил помощь'))
-bot.on('sticker', (ctx) => ctx.reply('Не хочу стикеры'))
-bot.hears('Привет', (ctx) => ctx.reply('Ну привет'))
-bot.launch()
+// MAYBE LATER IMPORT TELEGRAM TOO, ORIGINAL, LOOK AT ADMIN BOT
